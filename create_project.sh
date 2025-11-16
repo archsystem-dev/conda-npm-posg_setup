@@ -22,6 +22,7 @@ fi
 # Description : Demande à l'utilisateur de saisir le nom du projet et vérifie
 #               qu'il n'est pas vide.
 # ------------------------------------------------------------------------------
+# shellcheck disable=SC2162
 read -p "Entrez le nom du projet : " PROJECT_NAME
 if [ -z "$PROJECT_NAME" ]; then
     echo "Erreur : Le nom du projet ne peut pas être vide."
@@ -63,6 +64,8 @@ get_config_value() {
     local config_file=$1
     local section=$2
     local key=$3
+
+    # shellcheck disable=SC2155
     local value=$(crudini --get "$config_file" "$section" "$key" 2>/dev/null)
 
     if [ -z "$value" ]; then
@@ -71,6 +74,7 @@ get_config_value() {
         exit 1
     fi
 
+    # shellcheck disable=SC2001
     value=$(echo "$value" | sed "s|\$USER|$USER|g")
     echo "$value"
 }
